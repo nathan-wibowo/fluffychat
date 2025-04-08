@@ -3139,7 +3139,7 @@
   "appWantsToUseForLoginDescription": "You hereby allow the app and website to share information about you.",
   "open": "Open",
   "waitingForServer": "Waiting for server...",
-  "appIntroduction": "FluffyChat lets you chat with your friends across different messengers. Learn more at https://matrix.org or just tap *Continue*.",
+  "appIntroduction": "CHATR lets you chat with your friends across different messengers. Learn more at https://matrix.org or just tap *Continue*.",
   "newChatRequest": "📩 New chat request",
   "contentNotificationSettings": "Content notification settings",
   "generalNotificationSettings": "General notification settings",

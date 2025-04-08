@@ -9,7 +9,7 @@ abstract class AppConfig {
   static String? _applicationWelcomeMessage;
 
   static String? get applicationWelcomeMessage => _applicationWelcomeMessage;
-  static String _defaultHomeserver = 'matrix.org';
+  static String _defaultHomeserver = 'https://chatr.mmccann.dev';
 
   static String get defaultHomeserver => _defaultHomeserver;
   static double fontSizeFactor = 1;
