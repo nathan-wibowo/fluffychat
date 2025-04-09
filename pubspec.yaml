@@ -109,7 +109,7 @@ dev_dependencies:
 flutter_native_splash:
   color: "#ffffff"
   color_dark: "#000000"
-  image: "assets/info-logo.png"
+  image: "assets/transparent_chatr_logo.png"
 
 flutter:
   generate: true
