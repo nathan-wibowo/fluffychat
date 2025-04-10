@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:fluffychat/utils/translation_service.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:matrix/matrix.dart';
 
@@ -276,11 +277,55 @@ class MessageContent extends StatelessWidget {
             final bigEmotes = event.onlyEmotes &&
                 event.numberEmotes > 0 &&
                 event.numberEmotes <= 3;
+            final displayText = TranslationService.shouldShowTranslation(event)
+                ? TranslationService.getTranslatedText(event) ?? event.calcLocalizedBodyFallback(
+                    MatrixLocals(L10n.of(context)),
+                    hideReply: true,
+                  )
+                : event.calcLocalizedBodyFallback(
+                    MatrixLocals(L10n.of(context)),
+                    hideReply: true,
+                  );
+            if (event.text != null) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Linkify(
+                    text: displayText,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: bigEmotes ? fontSize * 5 : fontSize,
+                      decoration: event.redacted ? TextDecoration.lineThrough : null,
+                    ),
+                    options: const LinkifyOptions(humanize: false),
+                    linkStyle: TextStyle(
+                      color: linkColor,
+                      fontSize: fontSize,
+                      decoration: TextDecoration.underline,
+                      decorationColor: linkColor,
+                    ),
+                    onOpen: (url) => UrlLauncher(context, url.url).launchUrl(),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.translate,
+                      color: textColor,
+                      size: 16,
+                    ),
+                    onPressed: () async {
+                      final currentLanguage = Localizations.localeOf(context).languageCode;
+                      await TranslationService.translateEvent(
+                        event,
+                        currentLanguage,
+                      );
+                      TranslationService.toggleTranslation(event);
+                    },
+                  ),
+                ],
+              );
+            }
             return Linkify(
-              text: event.calcLocalizedBodyFallback(
-                MatrixLocals(L10n.of(context)),
-                hideReply: true,
-              ),
+              text: displayText,
               style: TextStyle(
                 color: textColor,
                 fontSize: bigEmotes ? fontSize * 5 : fontSize,

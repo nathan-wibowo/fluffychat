@@ -33,6 +33,7 @@ import 'package:fluffychat/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:fluffychat/utils/other_party_can_receive.dart';
 import 'package:fluffychat/utils/platform_infos.dart';
 import 'package:fluffychat/utils/show_scaffold_dialog.dart';
+import 'package:fluffychat/utils/translation_service.dart';
 import 'package:fluffychat/widgets/adaptive_dialogs/show_modal_action_popup.dart';
 import 'package:fluffychat/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'package:fluffychat/widgets/adaptive_dialogs/show_text_input_dialog.dart';
@@ -1238,6 +1239,54 @@ class ChatController extends State<ChatPageWithRoom>
 
   void showEventInfo([Event? event]) =>
       (event ?? selectedEvents.single).showInfoDialog(context);
+
+  void translateMessage([Event? event]) async {
+    final targetEvent = event ?? selectedEvents.single;
+    if (targetEvent.type != EventTypes.Message) return;
+
+    final currentLanguage = Localizations.localeOf(context).languageCode;
+    await TranslationService.translateEvent(
+      targetEvent,
+      currentLanguage,
+    );
+    setState(() {});
+  }
+
+  void showMessageActionDialog(Event event) async {
+    final room = Matrix.of(context).client.getRoomById(roomId);
+    if (room == null) return;
+
+    final action = await showModalActionPopup(
+      context: context,
+      actions: [
+
+        AdaptiveModalAction(
+          label: L10n.of(context).forward,
+          value: 'forward',
+          icon: const Icon(Icons.forward),
+        ),
+        AdaptiveModalAction(
+          label: L10n.of(context).reply,
+          value: 'reply',
+          icon: const Icon(Icons.reply),
+        ),
+      ],
+    );
+
+    if (action == null) return;
+
+    switch (action) {
+      case 'translate':
+        translateMessage(event);
+        break;
+      case 'forward':
+        // TODO: Implement forward
+        break;
+      case 'reply':
+        setState(() => replyEvent = event);
+        break;
+    }
+  }
 
   void onPhoneButtonTap() async {
     // VoIP required Android SDK 21

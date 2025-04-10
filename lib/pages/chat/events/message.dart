@@ -8,6 +8,7 @@ import 'package:matrix/matrix.dart';
 import 'package:swipe_to_action/swipe_to_action.dart';
 
 import 'package:fluffychat/config/themes.dart';
+import 'package:fluffychat/widgets/message_translation_button.dart';
 import 'package:fluffychat/pages/chat/events/room_creation_state_event.dart';
 import 'package:fluffychat/utils/date_time_extension.dart';
 import 'package:fluffychat/utils/file_description.dart';
@@ -29,6 +30,7 @@ class Message extends StatelessWidget {
   final void Function(Event) onSelect;
   final void Function(Event) onAvatarTab;
   final void Function(Event) onInfoTab;
+  final void Function(Event) onShowActions;
   final void Function(String) scrollToEventId;
   final void Function() onSwipe;
   final bool longPressSelect;
@@ -49,6 +51,7 @@ class Message extends StatelessWidget {
     this.longPressSelect = false,
     required this.onSelect,
     required this.onInfoTab,
+    required this.onShowActions,
     required this.onAvatarTab,
     required this.scrollToEventId,
     required this.onSwipe,
@@ -407,7 +410,7 @@ class Message extends StatelessWidget {
                                                 displayEvent,
                                                 textColor: textColor,
                                                 linkColor: linkColor,
-                                                onInfoTab: onInfoTab,
+                                                onInfoTab: onShowActions,
                                                 borderRadius: borderRadius,
                                                 timeline: timeline,
                                               ),
@@ -499,19 +502,25 @@ class Message extends StatelessWidget {
               ),
             ),
           row,
-          AnimatedSize(
-            duration: FluffyThemes.animationDuration,
-            curve: FluffyThemes.animationCurve,
-            child: !showReceiptsRow
-                ? const SizedBox.shrink()
-                : Padding(
-                    padding: EdgeInsets.only(
-                      top: 4.0,
-                      left: (ownMessage ? 0 : Avatar.defaultSize) + 12.0,
-                      right: ownMessage ? 0 : 12.0,
-                    ),
-                    child: MessageReactions(event, timeline),
-                  ),
+          if (showReceiptsRow)
+            Padding(
+              padding: EdgeInsets.only(
+                top: 4.0,
+                left: (ownMessage ? 0 : Avatar.defaultSize) + 12.0,
+                right: ownMessage ? 0 : 12.0,
+              ),
+              child: MessageReactions(event, timeline),
+            ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 4.0,
+              left: (ownMessage ? 0 : Avatar.defaultSize) + 12.0,
+              right: ownMessage ? 0 : 12.0,
+            ),
+            child: MessageTranslationButton(
+              event: event,
+              currentLanguage: Localizations.localeOf(context).languageCode,
+            ),
           ),
           if (displayReadMarker)
             Row(

@@ -3207,5 +3207,20 @@
   "recordAVideo": "Record a video",
   "optionalMessage": "(Optional) message...",
   "notSupportedOnThisDevice": "Not supported on this device",
-  "enterNewChat": "Enter new chat"
+  "enterNewChat": "Enter new chat",
+  "translateMessage": "Translate message",
+  "@translateMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "showOriginal": "Show original",
+  "@showOriginal": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "translationFailed": "Translation failed",
+  "@translationFailed": {
+    "type": "String",
+    "placeholders": {}
+  }
 }

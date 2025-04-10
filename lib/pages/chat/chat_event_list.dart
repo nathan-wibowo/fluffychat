@@ -136,6 +136,7 @@ class ChatEventList extends StatelessWidget {
                 },
                 onSwipe: () => controller.replyAction(replyTo: event),
                 onInfoTab: controller.showEventInfo,
+                onShowActions: controller.showMessageActionDialog,
                 onAvatarTab: (Event event) => showAdaptiveBottomSheet(
                   context: context,
                   builder: (c) => UserBottomSheet(
