@@ -79,7 +79,7 @@ class _LockScreenState extends State<LockScreen> {
               children: [
                 Center(
                   child: Image.asset(
-                    'assets/transparent_chatr_logo.png',
+                    'assets/logo_transparent.png',
                     width: 256,
                   ),
                 ),

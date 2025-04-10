@@ -51,7 +51,7 @@ class LoginView extends StatelessWidget {
               children: <Widget>[
                 Hero(
                   tag: 'info-logo',
-                  child: Image.asset('assets/chatr_logo_banner.png'),
+                  child: Image.asset('assets/banner_transparent.png'),
                 ),
                 const SizedBox(height: 16),
                 Padding(
