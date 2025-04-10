@@ -277,15 +277,10 @@ class MessageContent extends StatelessWidget {
             final bigEmotes = event.onlyEmotes &&
                 event.numberEmotes > 0 &&
                 event.numberEmotes <= 3;
-            final displayText = TranslationService.shouldShowTranslation(event)
-                ? TranslationService.getTranslatedText(event) ?? event.calcLocalizedBodyFallback(
-                    MatrixLocals(L10n.of(context)),
-                    hideReply: true,
-                  )
-                : event.calcLocalizedBodyFallback(
-                    MatrixLocals(L10n.of(context)),
-                    hideReply: true,
-                  );
+            final displayText = event.calcLocalizedBodyFallback(
+                MatrixLocals(L10n.of(context)),
+                hideReply: true,
+              );
             if (event.text != null) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,21 +301,21 @@ class MessageContent extends StatelessWidget {
                     ),
                     onOpen: (url) => UrlLauncher(context, url.url).launchUrl(),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.translate,
-                      color: textColor,
-                      size: 16,
-                    ),
-                    onPressed: () async {
-                      final currentLanguage = Localizations.localeOf(context).languageCode;
-                      await TranslationService.translateEvent(
-                        event,
-                        currentLanguage,
-                      );
-                      TranslationService.toggleTranslation(event);
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: Icon(
+                  //     Icons.translate,
+                  //     color: textColor,
+                  //     size: 16,
+                  //   ),
+                  //   onPressed: () async {
+                  //     final currentLanguage = Localizations.localeOf(context).languageCode;
+                  //     await TranslationService.translateEvent(
+                  //       event,
+                  //       currentLanguage,
+                  //     );
+                  //     TranslationService.toggleTranslation(event);
+                  //   },
+                  // ),
                 ],
               );
             }
